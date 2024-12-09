@@ -1,0 +1,32 @@
+name: Go Test CI
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # リポジトリをチェックアウト
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Goのセットアップ
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.23' # 使用するGoのバージョンを指定
+
+      # 依存関係のインストール
+      - name: Install dependencies
+        run: go mod tidy
+
+      # go testの実行
+      - name: Run tests
+        run: go test ./... -v
